@@ -316,34 +316,4 @@ inline int execute_module(void (*initialize)(module_),
   PyMODINIT_FUNC PyInit_##NAME(void) {                                         \
     return PyModuleDef_Init(&pyb26_moduledef_##NAME);                          \
   }                                                                            \
-  PYB26_MODEXPORT(NAME)                                                        \
   static void pyb26_user_init_##NAME(::pyb26::module_ VAR)
-
-#if defined(Py_mod_state_size) && PY_VERSION_HEX >= 0x030F0000
-#define PYB26_MODEXPORT(NAME)                                                  \
-  static PyModuleDef_Slot pyb26_state_slots_##NAME[] = {                       \
-      {Py_mod_state_size,                                                      \
-       reinterpret_cast<void *>(sizeof(::pyb26::detail::module_state))},       \
-      {Py_mod_state_traverse,                                                  \
-       reinterpret_cast<void *>(&::pyb26::detail::module_traverse)},           \
-      {Py_mod_state_clear,                                                     \
-       reinterpret_cast<void *>(&::pyb26::detail::module_clear)},              \
-      {Py_mod_state_free,                                                      \
-       reinterpret_cast<void *>(&::pyb26::detail::module_free)},               \
-  };                                                                           \
-  extern "C" Py_EXPORTED_SYMBOL PyModuleDef_Slot *PyModExport_##NAME(          \
-      PyObject *) {                                                            \
-    static PyModuleDef_Slot                                                    \
-        export_slots_##NAME[(sizeof(pyb26_slots_##NAME) +                      \
-                             sizeof(pyb26_state_slots_##NAME)) /               \
-                            sizeof(PyModuleDef_Slot)];                         \
-    int n = 0;                                                                 \
-    for (auto &s : pyb26_state_slots_##NAME)                                   \
-      export_slots_##NAME[n++] = s;                                            \
-    for (auto &s : pyb26_slots_##NAME)                                         \
-      export_slots_##NAME[n++] = s;                                            \
-    return export_slots_##NAME;                                                \
-  }
-#else
-#define PYB26_MODEXPORT(NAME)
-#endif
