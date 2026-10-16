@@ -1,7 +1,7 @@
 # pybind26
 
-C++26 bindings for CPython 3.14. Functions and call policies are specialized at
-compile time; a compiled runtime handles Python types and module state.
+C++26 bindings for CPython 3.14+ only. Functions and call policies are specialized
+at compile time; a compiled runtime handles Python types and module state.
 
 - Functions, classes, inheritance, callbacks, keyword arguments, and STL conversion.
 - CPU arrays, NumPy, DLPack, `std::span`, and `std::mdspan` adapters.
@@ -11,10 +11,10 @@ compile time; a compiled runtime handles Python types and module state.
 
 - CMake 4.4+ and Ninja for presets.
 - GCC 16 or Clang 22 with C++26 support, including `template for` and `std::expected`.
-- CPython 3.14 development headers, including internal headers.
+- CPython 3.14+ development headers, including internal headers.
 
 Extensions use the full CPython API and build with `-fno-exceptions`. Build GIL
-(`cp314`) and free-threaded (`cp314t`) extensions separately. Native code must
+and free-threaded extensions separately for each CPython version. Native code must
 synchronize shared mutable state.
 
 ## Usage
