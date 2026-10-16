@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+cmake_minimum_required(VERSION 4.4)
+
+if(NOT TARGET pyb26::headers)
+  include("${CMAKE_CURRENT_LIST_DIR}/pyb26Targets.cmake")
+  set_property(TARGET pyb26::headers PROPERTY IMPORTED_GLOBAL TRUE)
+
+  set_and_check(_pyb26_include "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+  set_and_check(_pyb26_source "@PACKAGE_pyb26_install_sourcedir@")
+  include("${CMAKE_CURRENT_LIST_DIR}/pyb26.cmake")
+  _pyb26_set_resources("${_pyb26_include}" "${_pyb26_source}")
+  unset(_pyb26_include)
+  unset(_pyb26_source)
+endif()
+
+check_required_components(pyb26)

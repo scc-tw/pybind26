@@ -1,0 +1,6 @@
+/build*/
+/.venv*/
+__pycache__/
+*.py[cod]
+/compile_commands.json
+/CMakeUserPresets.json
